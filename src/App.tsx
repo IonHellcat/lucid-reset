@@ -1,5 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import Index from "./pages/Index.tsx";
 import About from "./pages/About.tsx";
@@ -12,20 +11,11 @@ import Breathe from "./pages/activities/Breathe.tsx";
 import TypingTest from "./pages/activities/TypingTest.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <Toaster
-      theme="dark"
-      toastOptions={{
-        classNames: {
-          toast: "bg-card text-foreground border-border",
-        },
-      }}
-    />
-    <BrowserRouter>
-      <Routes>
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  return (
+    <div key={location.pathname} className="animate-fade-in">
+      <Routes location={location}>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
         <Route path="/stats" element={<Stats />} />
@@ -37,8 +27,24 @@ const App = () => (
         <Route path="/activity/typing-test" element={<TypingTest />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+    </div>
+  );
+};
+
+const App = () => (
+  <>
+    <Toaster
+      theme="dark"
+      toastOptions={{
+        classNames: {
+          toast: "bg-card text-foreground border-border",
+        },
+      }}
+    />
+    <BrowserRouter>
+      <AnimatedRoutes />
     </BrowserRouter>
-  </QueryClientProvider>
+  </>
 );
 
 export default App;
