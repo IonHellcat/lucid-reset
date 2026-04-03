@@ -127,7 +127,7 @@ const Breathe = () => {
         className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in transition-colors duration-1000"
         style={{ backgroundColor: `hsl(0 0% ${bgBrightness}%)` }}
       >
-        <h1 className="font-mono text-xl font-bold mb-2">breathe</h1>
+        <h1 className="font-display text-xl font-bold mb-2">breathe</h1>
         <p className="font-body text-sm text-muted-foreground mb-16">Follow the circle. No rush.</p>
 
         <div className="relative flex items-center justify-center" style={{ width: 240, height: 240 }}>
