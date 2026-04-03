@@ -390,7 +390,7 @@ const TypingTest = () => {
           onClick={() => inputRef.current?.focus()}
         >
           {/* Smooth caret */}
-          {isFocused && phase !== "done" && (
+          {isFocused && (
             <div
               ref={caretRef}
               className="absolute w-[2px] bg-primary rounded-full z-10"
