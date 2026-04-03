@@ -163,7 +163,7 @@ const ColorSort = () => {
         </div>
         <div className="flex gap-2 flex-wrap justify-center mb-6">
           {correctPositions.map((correct, i) => (
-            <div key={i} className="w-[60px] sm:w-[72px] flex justify-center">
+            <div key={i} className="w-[48px] sm:w-[60px] md:w-[72px] flex justify-center">
               <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${correct ? "bg-primary" : "bg-muted-foreground/20"}`} />
             </div>
           ))}

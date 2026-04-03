@@ -183,12 +183,12 @@ const RhythmTap = () => {
         {/* Mobile tap button */}
         <button
           onClick={handleTap}
-          className="font-mono text-sm px-8 py-4 rounded-full border-2 border-border bg-secondary transition-all duration-200 hover:border-primary active:scale-95 sm:hidden mb-4"
+          className="font-display text-sm px-8 py-4 rounded-full border-2 border-border bg-secondary transition-all duration-200 hover:border-primary active:scale-95 sm:hidden mb-4"
         >
           TAP
         </button>
 
-        <p className="font-mono text-xs text-muted-foreground hidden sm:block mb-4">spacebar to tap</p>
+        <p className="font-display text-xs text-muted-foreground hidden sm:block mb-4"><span className="font-mono">spacebar</span> to tap</p>
 
         <p className="font-mono text-xs text-muted-foreground mt-4">
           round {Math.min(round + 1, 5)} / 5

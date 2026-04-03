@@ -165,7 +165,7 @@ const Breathe = () => {
           ))}
         </div>
 
-        <span className="font-mono text-sm text-muted-foreground mt-6 select-none">
+        <span className="font-display text-sm text-muted-foreground mt-6 select-none">
           {label}
         </span>
 

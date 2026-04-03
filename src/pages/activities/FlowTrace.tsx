@@ -207,7 +207,7 @@ const FlowTrace = () => {
   return (
     <Layout>
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in">
-        <h1 className="font-mono text-xl font-bold mb-2">flow trace</h1>
+        <h1 className="font-display text-xl font-bold mb-2">flow trace</h1>
         <p className="font-body text-sm text-muted-foreground mb-6">
           Follow the dot with your cursor. Stay close.
         </p>
