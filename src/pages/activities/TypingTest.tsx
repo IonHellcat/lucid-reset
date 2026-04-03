@@ -487,7 +487,7 @@ const TypingTest = () => {
         </div>
 
         {phase === "waiting" && (
-          <p className="font-mono text-xs text-muted-foreground/30 mt-6 animate-pulse">
+          <p className="font-display text-xs text-muted-foreground/30 mt-6 animate-pulse">
             start typing to begin
           </p>
         )}
