@@ -16,7 +16,7 @@ const WORD_POOL = [
   "output", "input", "pixel", "frame", "layer", "state", "scope", "value", "index", "query",
 ];
 
-const DURATION = 60;
+const DURATION_OPTIONS = [15, 30, 60, 120];
 
 function pickWords(count: number): string[] {
   const words: string[] = [];
@@ -27,12 +27,13 @@ function pickWords(count: number): string[] {
 }
 
 const TypingTest = () => {
+  const [duration, setDuration] = useState(30);
   const [words, setWords] = useState<string[]>([]);
   const [typed, setTyped] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [phase, setPhase] = useState<"waiting" | "active" | "done">("waiting");
-  const [timeLeft, setTimeLeft] = useState(DURATION);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [correctWords, setCorrectWords] = useState(0);
   const [totalKeystrokes, setTotalKeystrokes] = useState(0);
   const [correctKeystrokes, setCorrectKeystrokes] = useState(0);
@@ -51,13 +52,13 @@ const TypingTest = () => {
     setWordIndex(0);
     setCharIndex(0);
     setPhase("waiting");
-    setTimeLeft(DURATION);
+    setTimeLeft(duration);
     setCorrectWords(0);
     setTotalKeystrokes(0);
     setCorrectKeystrokes(0);
     setWpm(0);
     setTimeout(() => inputRef.current?.focus(), 100);
-  }, []);
+  }, [duration]);
 
   useEffect(() => {
     init();
@@ -69,10 +70,9 @@ const TypingTest = () => {
     if (phase !== "active") return;
     timerRef.current = setInterval(() => {
       const elapsed = (Date.now() - startRef.current) / 1000;
-      const remaining = Math.max(0, DURATION - elapsed);
+      const remaining = Math.max(0, duration - elapsed);
       setTimeLeft(Math.ceil(remaining));
 
-      // Calculate live WPM
       const minutes = elapsed / 60;
       if (minutes > 0) {
         setWpm(Math.round(correctWords / minutes));
@@ -80,7 +80,7 @@ const TypingTest = () => {
 
       if (remaining <= 0) {
         clearInterval(timerRef.current);
-        const finalMinutes = DURATION / 60;
+        const finalMinutes = duration / 60;
         const finalWpm = Math.round(correctWords / finalMinutes);
         setWpm(finalWpm);
         setPhase("done");
@@ -88,12 +88,16 @@ const TypingTest = () => {
       }
     }, 200);
     return () => clearInterval(timerRef.current);
-  }, [phase, correctWords]);
+  }, [phase, correctWords, duration]);
+
+  const handleDurationChange = (d: number) => {
+    if (phase !== "waiting") return;
+    setDuration(d);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (phase === "done") return;
 
-    // Start on first keypress
     if (phase === "waiting" && e.key.length === 1) {
       setPhase("active");
       startRef.current = Date.now();
@@ -103,7 +107,6 @@ const TypingTest = () => {
       e.preventDefault();
       if (typed.length === 0) return;
 
-      // Check word
       const currentWord = words[wordIndex];
       const isCorrect = typed === currentWord;
       const newResults = [...wordResults];
@@ -118,7 +121,6 @@ const TypingTest = () => {
       setTyped("");
       setCharIndex(0);
 
-      // Add more words if needed
       if (wordIndex >= words.length - 20) {
         setWords((prev) => [...prev, ...pickWords(40)]);
         setWordResults((prev) => [...prev, ...pickWords(40).map(() => "pending" as const)]);
@@ -134,7 +136,6 @@ const TypingTest = () => {
       return;
     }
 
-    // Regular character
     if (e.key.length === 1) {
       setTotalKeystrokes((prev) => prev + 1);
       const currentWord = words[wordIndex];
@@ -171,7 +172,7 @@ const TypingTest = () => {
             label=" wpm"
             activity="typing-test"
             onRetry={init}
-            message={`${accuracy}% accuracy`}
+            message={`${accuracy}% accuracy · ${duration}s test`}
           />
         </div>
       </Layout>
@@ -180,10 +181,31 @@ const TypingTest = () => {
 
   return (
     <Layout>
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in">
+      <div
+        className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in"
+        onClick={() => inputRef.current?.focus()}
+      >
         <h1 className="font-mono text-xl font-bold mb-2">typing test</h1>
+
+        {/* Duration selector */}
+        <div className="flex items-center gap-1 mb-6">
+          {DURATION_OPTIONS.map((d) => (
+            <button
+              key={d}
+              onClick={(e) => { e.stopPropagation(); handleDurationChange(d); }}
+              className={`font-mono text-sm px-3 py-1 rounded-md transition-all duration-200 ${
+                d === duration
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground/50 hover:text-muted-foreground"
+              } ${phase !== "waiting" ? "opacity-40 cursor-default" : "cursor-pointer"}`}
+            >
+              {d}
+            </button>
+          ))}
+        </div>
+
         <p className="font-body text-sm text-muted-foreground mb-8">
-          {phase === "waiting" ? "Start typing to begin..." : `${timeLeft}s remaining`}
+          {phase === "waiting" ? "start typing to begin" : `${timeLeft}s`}
         </p>
 
         <div className="flex items-center gap-6 mb-6">
@@ -200,7 +222,6 @@ const TypingTest = () => {
         <div
           ref={containerRef}
           className="max-w-2xl w-full h-[120px] overflow-hidden relative mb-6 cursor-text"
-          onClick={() => inputRef.current?.focus()}
         >
           <div className="flex flex-wrap gap-x-2 gap-y-1 leading-relaxed">
             {words.slice(0, wordIndex + 40).map((word, wi) => {
@@ -212,12 +233,12 @@ const TypingTest = () => {
                   key={wi}
                   data-active={isActive}
                   className={`font-mono text-lg transition-colors duration-150 ${
-                    isActive
-                      ? "border-b-2 border-primary"
-                      : result === "correct"
+                    result === "correct"
                       ? "text-primary/60"
                       : result === "wrong"
                       ? "text-destructive/60 line-through"
+                      : isActive
+                      ? ""
                       : "text-muted-foreground/50"
                   }`}
                 >
@@ -234,7 +255,6 @@ const TypingTest = () => {
                         );
                       })
                     : word}
-                  {/* Show extra typed chars */}
                   {isActive && typed.length > word.length && (
                     <span className="text-destructive/70">
                       {typed.slice(word.length)}
@@ -265,7 +285,7 @@ const TypingTest = () => {
           <div className="w-48 h-1 bg-secondary rounded-full overflow-hidden">
             <div
               className="h-full bg-primary rounded-full transition-all duration-200"
-              style={{ width: `${((DURATION - timeLeft) / DURATION) * 100}%` }}
+              style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
             />
           </div>
           <span className="font-mono text-xs text-muted-foreground">{timeLeft}s</span>
