@@ -2,7 +2,7 @@ import { useState } from "react";
 import Layout from "@/components/Layout";
 import { getScores, getTotalResets, getResetsToday, getResetsThisWeek, getBestScore, getStreak, getWeeklyHeatmap, relativeTime, clearScores } from "@/lib/scores";
 
-const activities = ["color-sort", "sequence-recall", "rhythm-tap", "flow-trace", "breathe"];
+const activities = ["color-sort", "sequence-recall", "rhythm-tap", "flow-trace", "typing-test", "breathe"];
 const dayLabels = ["M", "T", "W", "T", "F", "S", "S"];
 
 const Stats = () => {

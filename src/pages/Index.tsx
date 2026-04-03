@@ -8,6 +8,7 @@ const activities = [
   { id: "sequence-recall", name: "sequence recall", description: "Memorize and reproduce tile sequences", time: "~2 min", path: "/activity/sequence-recall", icon: "grid" },
   { id: "rhythm-tap", name: "rhythm tap", description: "Watch a rhythm, then tap it back", time: "~90 sec", path: "/activity/rhythm-tap", icon: "pulse" },
   { id: "flow-trace", name: "flow trace", description: "Follow the dot with your cursor", time: "~60 sec", path: "/activity/flow-trace", icon: "curve" },
+  { id: "typing-test", name: "typing test", description: "Type words against the clock. Pure speed.", time: "~60 sec", path: "/activity/typing-test", icon: "typing" },
   { id: "breathe", name: "breathe", description: "Guided breathing. No score, just calm.", time: "~90 sec", path: "/activity/breathe", icon: "breathe" },
 ];
 
@@ -36,6 +37,10 @@ const CardIcon = ({ type }: { type: string }) => {
         <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
           <path d="M1 11C5 1 10 1 19 6" stroke="hsl(174,58%,55%)" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
+      );
+    case "typing":
+      return (
+        <span className="font-mono text-[10px] text-primary/70 leading-none">ab_</span>
       );
     case "breathe":
       return (

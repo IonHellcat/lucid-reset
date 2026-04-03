@@ -9,6 +9,7 @@ import SequenceRecall from "./pages/activities/SequenceRecall.tsx";
 import RhythmTap from "./pages/activities/RhythmTap.tsx";
 import FlowTrace from "./pages/activities/FlowTrace.tsx";
 import Breathe from "./pages/activities/Breathe.tsx";
+import TypingTest from "./pages/activities/TypingTest.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
         <Route path="/activity/rhythm-tap" element={<RhythmTap />} />
         <Route path="/activity/flow-trace" element={<FlowTrace />} />
         <Route path="/activity/breathe" element={<Breathe />} />
+        <Route path="/activity/typing-test" element={<TypingTest />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
