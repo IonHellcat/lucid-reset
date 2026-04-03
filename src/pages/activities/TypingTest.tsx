@@ -355,7 +355,7 @@ const TypingTest = () => {
             <>
               <div className="flex items-baseline gap-1.5">
                 <span className="font-mono text-2xl font-bold text-accent transition-all duration-300">{wpm}</span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">wpm</span>
+                <span className="font-display text-[10px] uppercase tracking-widest text-muted-foreground/60">wpm</span>
               </div>
               <div className="w-px h-4 bg-muted-foreground/20" />
               <span className="font-mono text-sm text-muted-foreground/60">{accuracy}%</span>

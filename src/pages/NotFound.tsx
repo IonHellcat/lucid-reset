@@ -19,7 +19,7 @@ const NotFound = () => {
         <p className="mb-6 font-body text-lg text-muted-foreground">This page doesn't exist.</p>
         <Link
           to="/"
-          className="font-mono text-sm text-primary transition-opacity duration-300 hover:opacity-70"
+          className="font-display text-sm text-primary transition-opacity duration-300 hover:opacity-70"
         >
           back to menu
         </Link>
