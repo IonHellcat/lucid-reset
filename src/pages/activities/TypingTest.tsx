@@ -321,7 +321,7 @@ const TypingTest = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 animate-fade-in" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-lg font-bold text-foreground">{rawWpm}</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">raw wpm</span>
+              <span className="font-display text-[10px] uppercase tracking-wider text-muted-foreground">raw wpm</span>
             </div>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-lg font-bold text-foreground">{accuracy}%</span>
