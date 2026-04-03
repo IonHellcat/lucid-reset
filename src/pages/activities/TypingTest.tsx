@@ -368,7 +368,7 @@ const TypingTest = () => {
                 <button
                   key={d}
                   onClick={(e) => { e.stopPropagation(); handleDurationChange(d); }}
-                  className={`font-mono text-sm px-3 py-1 rounded-md transition-all duration-200 cursor-pointer ${
+                  className={`font-display text-sm px-3 py-1 rounded-md transition-all duration-200 cursor-pointer ${
                     d === duration
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground/40 hover:text-muted-foreground/70"
