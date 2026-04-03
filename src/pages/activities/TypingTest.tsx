@@ -318,7 +318,7 @@ const TypingTest = () => {
             message={`${accuracy}% accuracy · ${duration}s test`}
           />
           {/* Stats breakdown */}
-          <div className="grid grid-cols-4 gap-4 mt-8 animate-fade-in" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 animate-fade-in" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-lg font-bold text-foreground">{rawWpm}</span>
               <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">raw wpm</span>
