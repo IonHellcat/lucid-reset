@@ -72,3 +72,12 @@
   0%, 100% { transform: scale(0.7); }
   50% { transform: scale(1); }
 }
+
+@keyframes caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-caret {
+  animation: caret-blink 1s ease-in-out infinite;
+}
