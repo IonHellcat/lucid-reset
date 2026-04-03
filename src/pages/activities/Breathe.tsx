@@ -150,6 +150,7 @@ const Breathe = () => {
               transform: `scale(${scale})`,
               opacity,
               background: "radial-gradient(circle, hsl(168 60% 50%) 0%, hsl(168 60% 35% / 0.3) 70%, transparent 100%)",
+            }}
           />
 
           {/* Dissolve particles */}
