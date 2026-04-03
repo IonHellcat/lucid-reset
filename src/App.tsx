@@ -34,6 +34,7 @@ const App = () => (
         <Route path="/activity/rhythm-tap" element={<RhythmTap />} />
         <Route path="/activity/flow-trace" element={<FlowTrace />} />
         <Route path="/activity/breathe" element={<Breathe />} />
+        <Route path="/activity/typing-test" element={<TypingTest />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

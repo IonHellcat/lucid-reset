@@ -38,6 +38,10 @@ const CardIcon = ({ type }: { type: string }) => {
           <path d="M1 11C5 1 10 1 19 6" stroke="hsl(174,58%,55%)" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       );
+    case "typing":
+      return (
+        <span className="font-mono text-[10px] text-primary/70 leading-none">ab_</span>
+      );
     case "breathe":
       return (
         <div className="w-3 h-3 rounded-full bg-primary/50" style={{ animation: "breathe-icon 4s ease-in-out infinite" }} />
