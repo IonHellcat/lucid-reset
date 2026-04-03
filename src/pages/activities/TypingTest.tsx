@@ -325,7 +325,7 @@ const TypingTest = () => {
             </div>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-lg font-bold text-foreground">{accuracy}%</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">accuracy</span>
+              <span className="font-display text-[10px] uppercase tracking-wider text-muted-foreground">accuracy</span>
             </div>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-[13px] font-bold text-foreground">
