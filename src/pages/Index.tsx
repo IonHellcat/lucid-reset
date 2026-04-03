@@ -37,7 +37,7 @@ const CardIcon = ({ type }: { type: string }) => {
     case "curve":
       return (
         <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
-          <path d="M1 11C5 1 10 1 19 6" stroke="hsl(174,58%,55%)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M1 11C5 1 10 1 19 6" stroke="hsl(168,60%,50%)" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       );
     case "typing":
@@ -76,7 +76,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16 relative">
       <Particles />
 
-      <div className="flex flex-col items-center gap-3 mb-16 relative z-10">
+      <div className="flex flex-col items-center gap-3 mb-10 relative z-10">
         <div className="animate-fade-in" style={{ animationDelay: "0ms", animationFillMode: "both" }}>
           <DefogLogo size="lg" />
         </div>
@@ -88,49 +88,53 @@ const Index = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl w-full mb-12 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl w-full mb-8 relative z-10">
         {activities.map((a, i) => (
           <Link
             key={a.id}
             to={a.path}
-            className="group border border-border rounded-lg p-6 transition-all duration-300 hover:border-primary hover:glow-primary bg-card hover:bg-[hsl(0_0%_12%)] animate-fade-in"
+            className="group border border-border rounded-lg px-5 py-6 transition-all duration-300 hover:border-primary hover:glow-primary bg-card relative overflow-hidden animate-fade-in"
             style={{
               animationDelay: `${600 + i * 100}ms`,
               animationFillMode: "both",
             }}
           >
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-mono text-sm font-semibold group-hover:text-primary transition-colors duration-300">
-                {a.name}
-              </h3>
-              <div className="opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-                <CardIcon type={a.icon} />
+            {/* Hover gradient overlay */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: "linear-gradient(90deg, hsl(168 60% 50% / 0.03), transparent 60%)" }} />
+            <div className="relative z-10">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-display text-sm font-semibold group-hover:text-primary transition-colors duration-300">
+                  {a.name}
+                </h3>
+                <div className="opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                  <CardIcon type={a.icon} />
+                </div>
               </div>
+              <p className="font-body text-sm text-muted-foreground mb-3">{a.description}</p>
+              <span className="font-mono text-[11px] text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-full">{a.time}</span>
             </div>
-            <p className="font-body text-sm text-muted-foreground mb-3">{a.description}</p>
-            <span className="font-mono text-xs text-muted-foreground">{a.time}</span>
           </Link>
         ))}
       </div>
 
-      <div className="flex flex-col items-center gap-2 mb-16 relative z-10 animate-fade-in" style={{ animationDelay: "1100ms", animationFillMode: "both" }}>
+      <div className="flex flex-col items-center gap-2 mb-10 relative z-10 animate-fade-in" style={{ animationDelay: "1100ms", animationFillMode: "both" }}>
         <button
           onClick={handleRandom}
-          className="font-mono text-sm font-semibold px-10 py-4 rounded-md bg-primary text-primary-foreground transition-all duration-300 hover:opacity-90 hover:glow-primary animate-pulse-glow"
-          style={{ boxShadow: "0 0 30px hsl(174 58% 55% / 0.15)" }}
+          className="font-display text-sm font-semibold px-10 py-4 rounded-md bg-primary text-primary-foreground transition-all duration-300 hover:opacity-90 hover:glow-primary animate-pulse-glow"
+          style={{ boxShadow: "0 0 30px hsl(168 60% 50% / 0.15)" }}
         >
           random reset
         </button>
-        <p className="font-mono text-xs text-muted-foreground/50 mt-1">press R for instant reset</p>
+        <p className="font-display text-xs text-muted-foreground/50 mt-1">press <span className="font-mono">R</span> for instant reset</p>
       </div>
 
       <footer className="flex flex-col items-center gap-3 relative z-10">
         <div className="flex gap-4">
-          <Link to="/stats" className="font-mono text-xs text-muted-foreground transition-colors duration-300 hover:text-foreground">stats</Link>
-          <Link to="/about" className="font-mono text-xs text-muted-foreground transition-colors duration-300 hover:text-foreground">about</Link>
+          <Link to="/stats" className="font-display text-xs text-muted-foreground transition-colors duration-300 hover:text-foreground">stats</Link>
+          <Link to="/about" className="font-display text-xs text-muted-foreground transition-colors duration-300 hover:text-foreground">about</Link>
         </div>
-        <p className="font-mono text-xs text-muted-foreground/30 mt-2">
-          R — random reset · Esc — menu
+        <p className="font-display text-xs text-muted-foreground/30 mt-2">
+          <span className="font-mono">R</span> — random reset · <span className="font-mono">Esc</span> — menu
         </p>
       </footer>
     </div>

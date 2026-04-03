@@ -63,12 +63,12 @@ const ActivityComplete = ({ score, label, message, activity, onRetry }: Activity
             {displayScore}{label}
           </p>
           {isNewBest && (
-            <p className="font-mono text-sm text-primary mt-2 glow-primary" style={{ textShadow: "0 0 10px hsl(174 58% 55% / 0.5)" }}>
+            <p className="font-display text-sm text-primary mt-2 glow-primary" style={{ textShadow: "0 0 10px hsl(168 60% 50% / 0.5)" }}>
               New personal best!
             </p>
           )}
           {previousBest !== undefined && (
-            <p className="font-mono text-xs text-muted-foreground mt-2">
+            <p className="font-body text-xs text-muted-foreground mt-2">
               Previous best: {previousBest}{label}
             </p>
           )}
@@ -76,27 +76,27 @@ const ActivityComplete = ({ score, label, message, activity, onRetry }: Activity
         </div>
       ) : (
         <div className="text-center">
-          <p className="font-mono text-3xl font-bold text-primary">Reset complete.</p>
+          <p className="font-display text-3xl font-bold text-primary">Reset complete.</p>
           <p className="text-muted-foreground font-body mt-3">Go crush it.</p>
         </div>
       )}
       <div className="flex gap-4 flex-wrap justify-center">
         <button
           onClick={onRetry}
-          className="font-mono text-sm px-6 py-3 rounded-md border border-border bg-secondary transition-all duration-300 hover:border-primary hover:glow-primary"
+          className="font-display text-sm px-6 py-3 rounded-md border border-border bg-secondary transition-all duration-300 hover:border-primary hover:glow-primary"
         >
           go again
         </button>
         <Link
           to="/"
-          className="font-mono text-sm px-6 py-3 rounded-md bg-primary text-primary-foreground transition-all duration-300 hover:opacity-90"
+          className="font-display text-sm px-6 py-3 rounded-md bg-primary text-primary-foreground transition-all duration-300 hover:opacity-90"
         >
           back to menu
         </Link>
         {score !== null && (
           <button
             onClick={handleShare}
-            className="font-mono text-sm px-6 py-3 rounded-md border border-border bg-secondary transition-all duration-300 hover:border-primary hover:glow-primary"
+            className="font-display text-sm px-6 py-3 rounded-md border border-border bg-secondary transition-all duration-300 hover:border-primary hover:glow-primary"
           >
             share
           </button>

@@ -26,10 +26,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <DefogLogo size="sm" />
           </Link>
           <nav className="flex gap-6">
-            <Link to="/stats" className="font-mono text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground">
+            <Link
+              to="/stats"
+              className={`font-display text-sm transition-colors duration-300 ${
+                location.pathname === "/stats" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
               stats
             </Link>
-            <Link to="/about" className="font-mono text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground">
+            <Link
+              to="/about"
+              className={`font-display text-sm transition-colors duration-300 ${
+                location.pathname === "/about" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
               about
             </Link>
           </nav>

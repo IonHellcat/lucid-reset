@@ -127,7 +127,7 @@ const Breathe = () => {
         className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in transition-colors duration-1000"
         style={{ backgroundColor: `hsl(0 0% ${bgBrightness}%)` }}
       >
-        <h1 className="font-mono text-xl font-bold mb-2">breathe</h1>
+        <h1 className="font-display text-xl font-bold mb-2">breathe</h1>
         <p className="font-body text-sm text-muted-foreground mb-16">Follow the circle. No rush.</p>
 
         <div className="relative flex items-center justify-center" style={{ width: 240, height: 240 }}>
@@ -149,7 +149,7 @@ const Breathe = () => {
               height: 200,
               transform: `scale(${scale})`,
               opacity,
-              background: "radial-gradient(circle, hsl(174 58% 55%) 0%, hsl(174 58% 35% / 0.3) 70%, transparent 100%)",
+              background: "radial-gradient(circle, hsl(168 60% 50%) 0%, hsl(168 60% 35% / 0.3) 70%, transparent 100%)",
             }}
           />
 
@@ -166,12 +166,12 @@ const Breathe = () => {
           ))}
         </div>
 
-        <span className="font-mono text-sm text-muted-foreground mt-6 select-none">
+        <span className="font-display text-sm text-muted-foreground mt-6 select-none">
           {label}
         </span>
 
-        <p className="font-mono text-xs text-muted-foreground mt-8">
-          cycle {cycle + 1} / {TOTAL_CYCLES}
+        <p className="font-display text-xs text-muted-foreground mt-8">
+          cycle <span className="font-mono">{cycle + 1}</span> / <span className="font-mono">{TOTAL_CYCLES}</span>
         </p>
       </div>
     </Layout>

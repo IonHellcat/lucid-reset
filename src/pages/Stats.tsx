@@ -29,8 +29,8 @@ const Stats = () => {
     return (
       <Layout>
         <div className="max-w-xl mx-auto px-6 py-16 w-full animate-fade-in text-center">
-          <p className="font-mono text-lg">All data cleared.</p>
-          <button onClick={() => window.location.reload()} className="font-mono text-sm text-primary mt-4 hover:opacity-70 transition-opacity">refresh</button>
+          <p className="font-display text-lg">All data cleared.</p>
+          <button onClick={() => window.location.reload()} className="font-display text-sm text-primary mt-4 hover:opacity-70 transition-opacity">refresh</button>
         </div>
       </Layout>
     );
@@ -39,14 +39,14 @@ const Stats = () => {
   return (
     <Layout>
       <div className="max-w-xl mx-auto px-6 py-16 w-full animate-fade-in">
-        <h1 className="font-mono text-2xl font-bold mb-10">stats</h1>
+        <h1 className="font-display text-2xl font-bold mb-10">stats</h1>
 
         {/* Streak */}
         <div className="mb-8 text-center">
           {streak > 0 ? (
-            <p className="font-mono text-lg font-bold text-accent">🔥 {streak} day streak</p>
+            <p className="font-display text-lg font-bold text-accent">🔥 <span className="font-mono">{streak}</span> day streak</p>
           ) : (
-            <p className="font-mono text-sm text-muted-foreground">Start your streak today</p>
+            <p className="font-display text-sm text-muted-foreground">Start your streak today</p>
           )}
         </div>
 
@@ -66,7 +66,7 @@ const Stats = () => {
         </div>
 
         {/* Weekly heatmap */}
-        <h2 className="font-mono text-sm font-semibold mb-3 text-muted-foreground">last 4 weeks</h2>
+        <h2 className="font-display text-sm font-semibold mb-3 text-muted-foreground">last 4 weeks</h2>
         <div className="mb-12">
           <div className="flex gap-1 mb-1">
             {dayLabels.map((d, i) => (
@@ -82,7 +82,7 @@ const Stats = () => {
                   style={{
                     backgroundColor: count === 0
                       ? "hsl(var(--secondary))"
-                      : `hsla(174, 58%, 55%, ${Math.min(0.2 + count * 0.2, 1)})`,
+                      : `hsla(168, 60%, 50%, ${Math.min(0.2 + count * 0.2, 1)})`,
                   }}
                   title={`${count} resets`}
                 />
@@ -91,13 +91,13 @@ const Stats = () => {
           ))}
         </div>
 
-        <h2 className="font-mono text-sm font-semibold mb-4 text-muted-foreground">best scores</h2>
+        <h2 className="font-display text-sm font-semibold mb-4 text-muted-foreground">best scores</h2>
         <div className="space-y-3 mb-12">
           {activities.map((a) => {
             const best = getBestScore(a);
             return (
               <div key={a} className="flex justify-between items-center border border-border rounded-lg px-4 py-3">
-                <span className="font-mono text-sm">{a}</span>
+                <span className="font-display text-sm">{a}</span>
                 <span className="font-mono text-sm text-accent">
                   {best ? `${best.score}${best.label}` : "--"}
                 </span>
@@ -106,7 +106,7 @@ const Stats = () => {
           })}
         </div>
 
-        <h2 className="font-mono text-sm font-semibold mb-4 text-muted-foreground">history</h2>
+        <h2 className="font-display text-sm font-semibold mb-4 text-muted-foreground">history</h2>
         {scores.length === 0 ? (
           <p className="font-body text-sm text-muted-foreground">No resets yet. Go clear the fog.</p>
         ) : (
@@ -114,7 +114,7 @@ const Stats = () => {
             {scores.slice(0, 50).map((s) => (
               <div key={s.id} className="flex justify-between items-center border border-border rounded-lg px-4 py-3">
                 <div>
-                  <span className="font-mono text-sm">{s.activity}</span>
+                  <span className="font-display text-sm">{s.activity}</span>
                   <span className="font-body text-xs text-muted-foreground ml-3">
                     {relativeTime(s.date)}
                   </span>
@@ -130,7 +130,7 @@ const Stats = () => {
         <div className="border-t border-border pt-8 mt-8">
           <button
             onClick={handleClear}
-            className={`font-mono text-sm px-4 py-2 rounded-md transition-all duration-300 ${
+            className={`font-display text-sm px-4 py-2 rounded-md transition-all duration-300 ${
               confirmClear
                 ? "bg-destructive text-destructive-foreground"
                 : "text-destructive border border-destructive/30 hover:border-destructive"
@@ -141,7 +141,7 @@ const Stats = () => {
           {confirmClear && (
             <button
               onClick={() => setConfirmClear(false)}
-              className="font-mono text-sm text-muted-foreground ml-3 hover:text-foreground transition-colors"
+              className="font-display text-sm text-muted-foreground ml-3 hover:text-foreground transition-colors"
             >
               cancel
             </button>

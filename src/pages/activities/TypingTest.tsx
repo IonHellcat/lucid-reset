@@ -318,24 +318,24 @@ const TypingTest = () => {
             message={`${accuracy}% accuracy · ${duration}s test`}
           />
           {/* Stats breakdown */}
-          <div className="grid grid-cols-4 gap-4 mt-8 animate-fade-in" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 animate-fade-in" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-lg font-bold text-foreground">{rawWpm}</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">raw wpm</span>
+              <span className="font-display text-[10px] uppercase tracking-wider text-muted-foreground">raw wpm</span>
             </div>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-lg font-bold text-foreground">{accuracy}%</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">accuracy</span>
+              <span className="font-display text-[10px] uppercase tracking-wider text-muted-foreground">accuracy</span>
             </div>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-[13px] font-bold text-foreground">
                 {correctKeystrokes}/{incorrectKeystrokes}/{extraChars}/{missedChars}
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">characters</span>
+              <span className="font-display text-[10px] uppercase tracking-wider text-muted-foreground">characters</span>
             </div>
             <div className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg bg-secondary/50">
               <span className="font-mono text-lg font-bold text-foreground">{duration}s</span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">time</span>
+              <span className="font-display text-[10px] uppercase tracking-wider text-muted-foreground">time</span>
             </div>
           </div>
         </div>
@@ -355,7 +355,7 @@ const TypingTest = () => {
             <>
               <div className="flex items-baseline gap-1.5">
                 <span className="font-mono text-2xl font-bold text-accent transition-all duration-300">{wpm}</span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">wpm</span>
+                <span className="font-display text-[10px] uppercase tracking-widest text-muted-foreground/60">wpm</span>
               </div>
               <div className="w-px h-4 bg-muted-foreground/20" />
               <span className="font-mono text-sm text-muted-foreground/60">{accuracy}%</span>
@@ -368,7 +368,7 @@ const TypingTest = () => {
                 <button
                   key={d}
                   onClick={(e) => { e.stopPropagation(); handleDurationChange(d); }}
-                  className={`font-mono text-sm px-3 py-1 rounded-md transition-all duration-200 cursor-pointer ${
+                  className={`font-display text-sm px-3 py-1 rounded-md transition-all duration-200 cursor-pointer ${
                     d === duration
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground/40 hover:text-muted-foreground/70"
@@ -384,7 +384,7 @@ const TypingTest = () => {
         {/* Word display */}
         <div
           ref={containerRef}
-          className={`max-w-2xl w-full h-[5.5rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
+          className={`max-w-2xl w-full h-[6.5rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
             !isFocused ? "blur-[3px] opacity-50" : ""
           }`}
           onClick={() => inputRef.current?.focus()}
@@ -413,7 +413,7 @@ const TypingTest = () => {
                 <span
                   key={wi}
                   data-active={isActive}
-                  className={`font-mono text-[1.35rem] transition-colors duration-200 relative ${
+                  className={`font-mono text-[1.25rem] transition-colors duration-200 relative ${
                     result === "correct"
                       ? "text-primary/50"
                       : result === "wrong"
@@ -451,7 +451,7 @@ const TypingTest = () => {
           {/* Click-to-focus overlay when blurred */}
           {!isFocused && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="font-mono text-sm text-muted-foreground/70 bg-background/80 px-4 py-2 rounded-lg">
+              <span className="font-display text-sm text-muted-foreground/70 bg-background/80 px-4 py-2 rounded-lg">
                 click to focus
               </span>
             </div>
@@ -483,11 +483,11 @@ const TypingTest = () => {
               style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
             />
           </div>
-          <p className="font-mono text-[10px] text-muted-foreground/20">tab to restart</p>
+          <p className="font-display text-[10px] text-muted-foreground/20"><span className="font-mono">tab</span> to restart</p>
         </div>
 
         {phase === "waiting" && (
-          <p className="font-mono text-xs text-muted-foreground/30 mt-6 animate-pulse">
+          <p className="font-display text-xs text-muted-foreground/30 mt-6 animate-pulse">
             start typing to begin
           </p>
         )}

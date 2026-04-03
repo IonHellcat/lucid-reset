@@ -13,7 +13,7 @@
     --popover: 0 0% 10%;
     --popover-foreground: 0 0% 88%;
 
-    --primary: 174 58% 55%;
+    --primary: 168 60% 50%;
     --primary-foreground: 0 0% 6%;
 
     --secondary: 0 0% 13%;
@@ -30,18 +30,18 @@
 
     --border: 0 0% 13%;
     --input: 0 0% 13%;
-    --ring: 174 58% 55%;
+    --ring: 168 60% 50%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 88%;
-    --sidebar-primary: 174 58% 55%;
+    --sidebar-primary: 168 60% 50%;
     --sidebar-primary-foreground: 0 0% 6%;
     --sidebar-accent: 0 0% 13%;
     --sidebar-accent-foreground: 0 0% 88%;
     --sidebar-border: 0 0% 13%;
-    --sidebar-ring: 174 58% 55%;
+    --sidebar-ring: 168 60% 50%;
   }
 }
 
@@ -52,16 +52,19 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-mono;
+    @apply font-display;
   }
 }
 
 @layer utilities {
   .glow-primary {
-    box-shadow: 0 0 20px hsl(174 58% 55% / 0.3);
+    box-shadow: 0 0 20px hsl(168 60% 50% / 0.3);
   }
   .glow-accent {
     box-shadow: 0 0 20px hsl(43 87% 61% / 0.3);

@@ -128,7 +128,7 @@ const SequenceRecall = () => {
   return (
     <Layout>
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in">
-        <h1 className="font-mono text-xl font-bold mb-2">sequence recall</h1>
+        <h1 className="font-display text-xl font-bold mb-2">sequence recall</h1>
         <p className="font-body text-sm text-muted-foreground mb-8">
           {phase === "countdown"
             ? ""
@@ -180,8 +180,8 @@ const SequenceRecall = () => {
         )}
 
         {phase !== "countdown" && (
-          <p className="font-mono text-xs text-muted-foreground mt-6">
-            sequence length: {sequence.length}
+          <p className="font-display text-xs text-muted-foreground mt-6">
+            sequence length: <span className="font-mono">{sequence.length}</span>
           </p>
         )}
       </div>

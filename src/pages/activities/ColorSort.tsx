@@ -49,7 +49,8 @@ const ColorSort = () => {
   const sortedRef = useRef<{ hue: number }[]>([]);
 
   const init = useCallback(() => {
-    const c = generateColors(10);
+    const tileCount = window.innerWidth < 640 ? 8 : 10;
+    const c = generateColors(tileCount);
     sortedRef.current = [...c].sort((a, b) => a.hue - b.hue);
     setColors(shuffle(c));
     setSelected(null);
@@ -135,7 +136,7 @@ const ColorSort = () => {
   return (
     <Layout>
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in">
-        <h1 className="font-mono text-xl font-bold mb-2">color sort</h1>
+        <h1 className="font-display text-xl font-bold mb-2">color sort</h1>
         <p className="font-body text-sm text-muted-foreground mb-8">
           Tap two tiles to swap. Arrange in rainbow order.
         </p>
@@ -148,7 +149,7 @@ const ColorSort = () => {
               onDragOver={(e) => handleDragOver(e, i)}
               onDragEnd={handleDragEnd}
               onClick={() => handleClick(i)}
-              className={`w-[60px] h-[60px] sm:w-[72px] sm:h-[72px] rounded-lg transition-all duration-300 ${
+              className={`w-[48px] h-[48px] sm:w-[60px] sm:h-[60px] md:w-[72px] md:h-[72px] rounded-lg transition-all duration-300 ${
                 selected === i ? "ring-2 ring-foreground scale-110" : "hover:scale-105"
               } ${cascadeIndex >= i && cascadeIndex >= 0 ? "glow-primary" : ""}`}
               style={{
@@ -162,7 +163,7 @@ const ColorSort = () => {
         </div>
         <div className="flex gap-2 flex-wrap justify-center mb-6">
           {correctPositions.map((correct, i) => (
-            <div key={i} className="w-[60px] sm:w-[72px] flex justify-center">
+            <div key={i} className="w-[48px] sm:w-[60px] md:w-[72px] flex justify-center">
               <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${correct ? "bg-primary" : "bg-muted-foreground/20"}`} />
             </div>
           ))}
