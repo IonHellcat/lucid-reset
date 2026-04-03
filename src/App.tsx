@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
 import Index from "./pages/Index.tsx";
 import About from "./pages/About.tsx";
 import Stats from "./pages/Stats.tsx";
@@ -16,22 +15,27 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/stats" element={<Stats />} />
-          <Route path="/activity/color-sort" element={<ColorSort />} />
-          <Route path="/activity/sequence-recall" element={<SequenceRecall />} />
-          <Route path="/activity/rhythm-tap" element={<RhythmTap />} />
-          <Route path="/activity/flow-trace" element={<FlowTrace />} />
-          <Route path="/activity/breathe" element={<Breathe />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <Toaster
+      theme="dark"
+      toastOptions={{
+        classNames: {
+          toast: "bg-card text-foreground border-border",
+        },
+      }}
+    />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/stats" element={<Stats />} />
+        <Route path="/activity/color-sort" element={<ColorSort />} />
+        <Route path="/activity/sequence-recall" element={<SequenceRecall />} />
+        <Route path="/activity/rhythm-tap" element={<RhythmTap />} />
+        <Route path="/activity/flow-trace" element={<FlowTrace />} />
+        <Route path="/activity/breathe" element={<Breathe />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
