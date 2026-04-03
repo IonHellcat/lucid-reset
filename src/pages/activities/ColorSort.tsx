@@ -149,7 +149,7 @@ const ColorSort = () => {
               onDragOver={(e) => handleDragOver(e, i)}
               onDragEnd={handleDragEnd}
               onClick={() => handleClick(i)}
-              className={`w-[60px] h-[60px] sm:w-[72px] sm:h-[72px] rounded-lg transition-all duration-300 ${
+              className={`w-[48px] h-[48px] sm:w-[60px] sm:h-[60px] md:w-[72px] md:h-[72px] rounded-lg transition-all duration-300 ${
                 selected === i ? "ring-2 ring-foreground scale-110" : "hover:scale-105"
               } ${cascadeIndex >= i && cascadeIndex >= 0 ? "glow-primary" : ""}`}
               style={{
