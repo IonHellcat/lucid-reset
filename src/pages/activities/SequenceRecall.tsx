@@ -52,24 +52,10 @@ const SequenceRecall = () => {
     setWrongTile(null);
     setCorrectTile(null);
 
-    // Countdown 3, 2, 1
-    let n = 3;
-    const countInterval = setInterval(() => {
-      n--;
-      if (n <= 0) {
-        clearInterval(countInterval);
-        // Start with sequence of 3
-        const initial: number[] = [];
-        for (let i = 0; i < 3; i++) initial.push(Math.floor(Math.random() * TILES));
-        startRound(initial.slice(0, -1).length === 0 ? initial : initial);
-        return;
-      }
-      setCountdownNum(n);
-    }, 800);
-
-    // After full countdown, start
+    // Countdown 3, 2, 1 using chained timeouts
+    setTimeout(() => setCountdownNum(2), 800);
+    setTimeout(() => setCountdownNum(1), 1600);
     setTimeout(() => {
-      clearInterval(countInterval);
       const initial: number[] = [];
       for (let i = 0; i < 3; i++) initial.push(Math.floor(Math.random() * TILES));
       startRound(initial);

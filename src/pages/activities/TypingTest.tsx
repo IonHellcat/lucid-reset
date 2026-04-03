@@ -249,7 +249,7 @@ const TypingTest = () => {
   // Update caret position
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || phase === "done") return;
+    if (!container || (phase !== "waiting" && phase !== "active")) return;
 
     const activeWord = container.querySelector("[data-active='true']") as HTMLElement;
     if (!activeWord) return;
