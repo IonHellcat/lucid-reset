@@ -39,6 +39,7 @@ const TypingTest = () => {
   const [correctKeystrokes, setCorrectKeystrokes] = useState(0);
   const [wordResults, setWordResults] = useState<("correct" | "wrong" | "pending")[]>([]);
   const [wpm, setWpm] = useState(0);
+  const [isFocused, setIsFocused] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const startRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval>>();
@@ -65,7 +66,6 @@ const TypingTest = () => {
     return () => clearInterval(timerRef.current);
   }, [init]);
 
-  // Timer
   useEffect(() => {
     if (phase !== "active") return;
     timerRef.current = setInterval(() => {
@@ -185,45 +185,48 @@ const TypingTest = () => {
         className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in"
         onClick={() => inputRef.current?.focus()}
       >
-        <h1 className="font-mono text-xl font-bold mb-2">typing test</h1>
-
-        {/* Duration selector */}
-        <div className="flex items-center gap-1 mb-6">
-          {DURATION_OPTIONS.map((d) => (
-            <button
-              key={d}
-              onClick={(e) => { e.stopPropagation(); handleDurationChange(d); }}
-              className={`font-mono text-sm px-3 py-1 rounded-md transition-all duration-200 ${
-                d === duration
-                  ? "text-primary bg-primary/10"
-                  : "text-muted-foreground/50 hover:text-muted-foreground"
-              } ${phase !== "waiting" ? "opacity-40 cursor-default" : "cursor-pointer"}`}
-            >
-              {d}
-            </button>
-          ))}
-        </div>
-
-        <p className="font-body text-sm text-muted-foreground mb-8">
-          {phase === "waiting" ? "start typing to begin" : `${timeLeft}s`}
-        </p>
-
-        <div className="flex items-center gap-6 mb-6">
-          {phase === "active" && (
+        {/* Live stats bar */}
+        <div className="flex items-center gap-4 mb-8 h-8">
+          {phase === "active" ? (
             <>
-              <span className="font-mono text-2xl font-bold text-accent">{wpm}</span>
-              <span className="font-mono text-xs text-muted-foreground">wpm</span>
-              <span className="font-mono text-sm text-muted-foreground">{accuracy}%</span>
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-mono text-2xl font-bold text-accent transition-all duration-300">{wpm}</span>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">wpm</span>
+              </div>
+              <div className="w-px h-4 bg-muted-foreground/20" />
+              <span className="font-mono text-sm text-muted-foreground/60">{accuracy}%</span>
+              <div className="w-px h-4 bg-muted-foreground/20" />
+              <span className="font-mono text-sm text-primary">{timeLeft}s</span>
             </>
+          ) : (
+            /* Duration selector — only visible before starting */
+            <div className="flex items-center gap-1">
+              {DURATION_OPTIONS.map((d) => (
+                <button
+                  key={d}
+                  onClick={(e) => { e.stopPropagation(); handleDurationChange(d); }}
+                  className={`font-mono text-sm px-3 py-1 rounded-md transition-all duration-200 cursor-pointer ${
+                    d === duration
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground/40 hover:text-muted-foreground/70"
+                  }`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
           )}
         </div>
 
         {/* Word display */}
         <div
           ref={containerRef}
-          className="max-w-2xl w-full h-[120px] overflow-hidden relative mb-6 cursor-text"
+          className={`max-w-2xl w-full h-[7.5rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
+            !isFocused ? "blur-[3px] opacity-50" : ""
+          }`}
+          onClick={() => inputRef.current?.focus()}
         >
-          <div className="flex flex-wrap gap-x-2 gap-y-1 leading-relaxed">
+          <div className="flex flex-wrap gap-x-2.5 gap-y-2 leading-relaxed select-none">
             {words.slice(0, wordIndex + 40).map((word, wi) => {
               const isActive = wi === wordIndex;
               const result = wordResults[wi];
@@ -232,38 +235,65 @@ const TypingTest = () => {
                 <span
                   key={wi}
                   data-active={isActive}
-                  className={`font-mono text-lg transition-colors duration-150 ${
+                  className={`font-mono text-[1.35rem] transition-colors duration-200 relative ${
                     result === "correct"
-                      ? "text-primary/60"
+                      ? "text-primary/50"
                       : result === "wrong"
-                      ? "text-destructive/60 line-through"
+                      ? "text-destructive/50 line-through decoration-destructive/30"
                       : isActive
                       ? ""
-                      : "text-muted-foreground/50"
+                      : "text-muted-foreground/30"
                   }`}
                 >
                   {isActive
                     ? word.split("").map((char, ci) => {
-                        let color = "text-muted-foreground/50";
-                        if (ci < typed.length) {
-                          color = typed[ci] === char ? "text-foreground" : "text-destructive";
+                        const isBeforeCursor = ci < typed.length;
+                        const isAtCursor = ci === typed.length;
+                        let charColor = "text-muted-foreground/30";
+                        if (isBeforeCursor) {
+                          charColor = typed[ci] === char ? "text-foreground" : "text-destructive";
                         }
                         return (
-                          <span key={ci} className={`${color} transition-colors duration-100`}>
-                            {char}
+                          <span key={ci} className="relative">
+                            {isAtCursor && (
+                              <span className="absolute left-0 top-[2px] bottom-[2px] w-[2px] bg-primary animate-caret" />
+                            )}
+                            <span className={`${charColor} transition-colors duration-75`}>
+                              {char}
+                            </span>
                           </span>
                         );
                       })
                     : word}
+                  {/* Blinking caret at end of word if typed matches length */}
+                  {isActive && typed.length >= word.length && (
+                    <span className="relative">
+                      <span className="absolute left-0 top-[2px] bottom-[2px] w-[2px] bg-primary animate-caret" />
+                    </span>
+                  )}
+                  {/* Extra typed chars beyond word length */}
                   {isActive && typed.length > word.length && (
-                    <span className="text-destructive/70">
+                    <span className="text-destructive/60">
                       {typed.slice(word.length)}
                     </span>
+                  )}
+                  {/* Caret at very start when nothing typed */}
+                  {isActive && typed.length === 0 && (
+                    <span className="absolute left-0 top-[2px] bottom-[2px] w-[2px] bg-primary animate-caret" />
                   )}
                 </span>
               );
             })}
           </div>
+
+          {/* Click-to-focus overlay when blurred */}
+          {!isFocused && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="font-mono text-sm text-muted-foreground/70 bg-background/80 px-4 py-2 rounded-lg">
+                click to focus
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Hidden input */}
@@ -273,6 +303,8 @@ const TypingTest = () => {
           value={typed}
           onChange={() => {}}
           onKeyDown={handleKeyDown}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           className="opacity-0 absolute w-0 h-0"
           autoFocus
           autoComplete="off"
@@ -281,19 +313,19 @@ const TypingTest = () => {
           spellCheck={false}
         />
 
-        <div className="flex items-center gap-2">
-          <div className="w-48 h-1 bg-secondary rounded-full overflow-hidden">
+        {/* Progress bar */}
+        <div className="flex items-center gap-3">
+          <div className="w-52 h-[3px] bg-secondary/50 rounded-full overflow-hidden">
             <div
-              className="h-full bg-primary rounded-full transition-all duration-200"
+              className="h-full bg-primary/60 rounded-full transition-all duration-300 ease-out"
               style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
             />
           </div>
-          <span className="font-mono text-xs text-muted-foreground">{timeLeft}s</span>
         </div>
 
         {phase === "waiting" && (
-          <p className="font-mono text-xs text-muted-foreground/40 mt-6">
-            click here and start typing
+          <p className="font-mono text-xs text-muted-foreground/30 mt-8 animate-pulse">
+            start typing to begin
           </p>
         )}
       </div>
