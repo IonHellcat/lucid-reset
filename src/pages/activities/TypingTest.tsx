@@ -451,7 +451,7 @@ const TypingTest = () => {
           {/* Click-to-focus overlay when blurred */}
           {!isFocused && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="font-mono text-sm text-muted-foreground/70 bg-background/80 px-4 py-2 rounded-lg">
+              <span className="font-display text-sm text-muted-foreground/70 bg-background/80 px-4 py-2 rounded-lg">
                 click to focus
               </span>
             </div>
