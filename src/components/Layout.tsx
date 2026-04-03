@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import DefogLogo from "./LucidLogo";
+import DefogLogo from "./DefogLogo";
 import { useEffect } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -10,6 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape" && !isHome) {
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
         navigate("/");
       }
     };

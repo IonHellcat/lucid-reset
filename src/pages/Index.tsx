@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import DefogLogo from "@/components/LucidLogo";
+import DefogLogo from "@/components/DefogLogo";
 import Particles from "@/components/Particles";
 
 const activities = [
@@ -11,6 +11,8 @@ const activities = [
   { id: "typing-test", name: "typing test", description: "Type words against the clock. Pure speed.", time: "~60 sec", path: "/activity/typing-test", icon: "typing" },
   { id: "breathe", name: "breathe", description: "Guided breathing. No score, just calm.", time: "~90 sec", path: "/activity/breathe", icon: "breathe" },
 ];
+
+const resetActivities = activities.filter((a) => a.id !== "typing-test");
 
 const CardIcon = ({ type }: { type: string }) => {
   switch (type) {
@@ -55,7 +57,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   const handleRandom = () => {
-    const random = activities[Math.floor(Math.random() * activities.length)];
+    const random = resetActivities[Math.floor(Math.random() * resetActivities.length)];
     navigate(random.path);
   };
 
@@ -91,14 +93,11 @@ const Index = () => {
           <Link
             key={a.id}
             to={a.path}
-            className="group border border-border rounded-lg p-6 transition-all duration-300 hover:border-primary hover:glow-primary animate-fade-in"
+            className="group border border-border rounded-lg p-6 transition-all duration-300 hover:border-primary hover:glow-primary bg-card hover:bg-[hsl(0_0%_12%)] animate-fade-in"
             style={{
               animationDelay: `${600 + i * 100}ms`,
               animationFillMode: "both",
-              background: "hsl(var(--card))",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "hsl(0 0% 12%)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "hsl(var(--card))"; }}
           >
             <div className="flex justify-between items-start mb-2">
               <h3 className="font-mono text-sm font-semibold group-hover:text-primary transition-colors duration-300">
