@@ -483,7 +483,7 @@ const TypingTest = () => {
               style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
             />
           </div>
-          <p className="font-mono text-[10px] text-muted-foreground/20">tab to restart</p>
+          <p className="font-display text-[10px] text-muted-foreground/20"><span className="font-mono">tab</span> to restart</p>
         </div>
 
         {phase === "waiting" && (
