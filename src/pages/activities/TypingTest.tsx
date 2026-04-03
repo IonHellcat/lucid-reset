@@ -384,7 +384,7 @@ const TypingTest = () => {
         {/* Word display */}
         <div
           ref={containerRef}
-          className={`max-w-2xl w-full h-[5.5rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
+          className={`max-w-2xl w-full h-[6.5rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
             !isFocused ? "blur-[3px] opacity-50" : ""
           }`}
           onClick={() => inputRef.current?.focus()}
