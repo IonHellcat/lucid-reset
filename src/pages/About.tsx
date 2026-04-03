@@ -4,7 +4,7 @@ import Layout from "@/components/Layout";
 const About = () => (
   <Layout>
     <div className="max-w-xl mx-auto px-6 py-16 animate-fade-in">
-      <h1 className="font-mono text-2xl font-bold mb-8">about defog</h1>
+      <h1 className="font-display text-2xl font-bold mb-8">about defog</h1>
 
       <div className="space-y-6 font-body text-muted-foreground leading-relaxed mb-12">
         <p>
@@ -18,7 +18,7 @@ const About = () => (
         </p>
       </div>
 
-      <h2 className="font-mono text-lg font-bold mb-6">how it works</h2>
+      <h2 className="font-display text-lg font-bold mb-6">how it works</h2>
       <div className="space-y-6 mb-12">
         {[
           { step: "1", title: "Hit a wall", desc: "When brain fog strikes and you reach for your phone" },
@@ -28,26 +28,26 @@ const About = () => (
           <div key={s.step} className="flex gap-4 items-start">
             <span className="font-mono text-2xl font-bold text-primary">{s.step}</span>
             <div>
-              <p className="font-mono text-sm font-semibold">{s.title}</p>
+              <p className="font-display text-sm font-semibold">{s.title}</p>
               <p className="font-body text-sm text-muted-foreground">{s.desc}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="font-mono text-lg font-bold mb-4">the science</h2>
+      <h2 className="font-display text-lg font-bold mb-4">the science</h2>
       <p className="font-body text-sm text-muted-foreground leading-relaxed mb-12">
         Research published in <em>PLOS ONE</em> found that micro-breaks significantly boost vigor and reduce fatigue. The key insight: switching to a qualitatively different cognitive task restores attention more effectively than passive rest or scrolling.
       </p>
 
       <Link
         to="/"
-        className="font-mono text-sm text-primary transition-opacity duration-300 hover:opacity-70"
+        className="font-display text-sm text-primary transition-opacity duration-300 hover:opacity-70"
       >
         Ready to try it? →
       </Link>
 
-      <p className="font-mono text-xs text-muted-foreground mt-12">2 minutes. that's all it takes.</p>
+      <p className="font-display text-xs text-muted-foreground mt-12">2 minutes. that's all it takes.</p>
     </div>
   </Layout>
 );
