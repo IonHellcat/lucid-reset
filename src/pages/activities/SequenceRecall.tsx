@@ -180,8 +180,8 @@ const SequenceRecall = () => {
         )}
 
         {phase !== "countdown" && (
-          <p className="font-mono text-xs text-muted-foreground mt-6">
-            sequence length: {sequence.length}
+          <p className="font-display text-xs text-muted-foreground mt-6">
+            sequence length: <span className="font-mono">{sequence.length}</span>
           </p>
         )}
       </div>

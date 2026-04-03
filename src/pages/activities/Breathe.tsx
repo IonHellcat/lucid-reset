@@ -170,8 +170,8 @@ const Breathe = () => {
           {label}
         </span>
 
-        <p className="font-mono text-xs text-muted-foreground mt-8">
-          cycle {cycle + 1} / {TOTAL_CYCLES}
+        <p className="font-display text-xs text-muted-foreground mt-8">
+          cycle <span className="font-mono">{cycle + 1}</span> / <span className="font-mono">{TOTAL_CYCLES}</span>
         </p>
       </div>
     </Layout>

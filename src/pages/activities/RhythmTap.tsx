@@ -190,12 +190,12 @@ const RhythmTap = () => {
 
         <p className="font-display text-xs text-muted-foreground hidden sm:block mb-4"><span className="font-mono">spacebar</span> to tap</p>
 
-        <p className="font-mono text-xs text-muted-foreground mt-4">
-          round {Math.min(round + 1, 5)} / 5
+        <p className="font-display text-xs text-muted-foreground mt-4">
+          round <span className="font-mono">{Math.min(round + 1, 5)}</span> / <span className="font-mono">5</span>
         </p>
         {phase === "input" && (
-          <p className="font-mono text-xs text-muted-foreground mt-2">
-            taps: {taps.length} / {pattern.length}
+          <p className="font-display text-xs text-muted-foreground mt-2">
+            taps: <span className="font-mono">{taps.length}</span> / <span className="font-mono">{pattern.length}</span>
           </p>
         )}
       </div>
