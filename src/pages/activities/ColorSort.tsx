@@ -49,7 +49,8 @@ const ColorSort = () => {
   const sortedRef = useRef<{ hue: number }[]>([]);
 
   const init = useCallback(() => {
-    const c = generateColors(10);
+    const tileCount = window.innerWidth < 640 ? 8 : 10;
+    const c = generateColors(tileCount);
     sortedRef.current = [...c].sort((a, b) => a.hue - b.hue);
     setColors(shuffle(c));
     setSelected(null);
