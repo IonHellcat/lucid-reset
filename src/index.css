@@ -67,3 +67,8 @@
     box-shadow: 0 0 20px hsl(43 87% 61% / 0.3);
   }
 }
+
+@keyframes breathe-icon {
+  0%, 100% { transform: scale(0.7); }
+  50% { transform: scale(1); }
+}

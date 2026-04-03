@@ -4,11 +4,11 @@ import ActivityComplete from "@/components/ActivityComplete";
 import { saveScore } from "@/lib/scores";
 
 function generateColors(count: number): { hue: number; color: string }[] {
-  const hues: number[] = [];
-  for (let i = 0; i < count; i++) {
-    hues.push(Math.round((360 / count) * i + Math.random() * (360 / count / 2)));
-  }
-  return hues.map((h) => ({ hue: h % 360, color: `hsl(${h % 360}, 70%, 50%)` }));
+  const step = 360 / count;
+  return Array.from({ length: count }, (_, i) => {
+    const hue = Math.round(step * i + step * 0.1 + Math.random() * step * 0.6);
+    return { hue: hue % 360, color: `hsl(${hue % 360}, 72%, 52%)` };
+  });
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -18,6 +18,13 @@ function shuffle<T>(arr: T[]): T[] {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function isSorted(tiles: { hue: number }[]): boolean {
+  for (let i = 1; i < tiles.length; i++) {
+    if (tiles[i].hue < tiles[i - 1].hue) return false;
+  }
+  return true;
 }
 
 function calcAccuracy(tiles: { hue: number }[]): number {
@@ -35,16 +42,21 @@ const ColorSort = () => {
   const [done, setDone] = useState(false);
   const [score, setScore] = useState(0);
   const [elapsed, setElapsed] = useState(0);
+  const [cascadeIndex, setCascadeIndex] = useState(-1);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
   const startRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval>>();
+  const sortedRef = useRef<{ hue: number }[]>([]);
 
   const init = useCallback(() => {
     const c = generateColors(10);
+    sortedRef.current = [...c].sort((a, b) => a.hue - b.hue);
     setColors(shuffle(c));
     setSelected(null);
     setDone(false);
     setScore(0);
     setElapsed(0);
+    setCascadeIndex(-1);
     startRef.current = Date.now();
     timerRef.current = setInterval(() => {
       setElapsed(Math.floor((Date.now() - startRef.current) / 1000));
@@ -56,8 +68,28 @@ const ColorSort = () => {
     return () => clearInterval(timerRef.current);
   }, [init]);
 
+  // Auto-detect completion
+  useEffect(() => {
+    if (done || colors.length === 0) return;
+    if (isSorted(colors)) {
+      clearInterval(timerRef.current);
+      const acc = calcAccuracy(colors);
+      setScore(acc);
+      // Cascade animation
+      let i = 0;
+      const interval = setInterval(() => {
+        setCascadeIndex(i);
+        i++;
+        if (i >= colors.length) {
+          clearInterval(interval);
+          setTimeout(() => setDone(true), 400);
+        }
+      }, 80);
+    }
+  }, [colors, done]);
+
   const handleClick = (index: number) => {
-    if (done) return;
+    if (done || cascadeIndex >= 0) return;
     if (selected === null) {
       setSelected(index);
     } else {
@@ -68,19 +100,33 @@ const ColorSort = () => {
     }
   };
 
-  const handleSubmit = () => {
-    clearInterval(timerRef.current);
-    const acc = calcAccuracy(colors);
-    setScore(acc);
-    setDone(true);
-    saveScore("color-sort", acc, "%");
+  const handleDragStart = (index: number) => {
+    setDragIndex(index);
   };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (dragIndex !== null && dragIndex !== index) {
+      const next = [...colors];
+      [next[dragIndex], next[index]] = [next[index], next[dragIndex]];
+      setColors(next);
+      setDragIndex(index);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDragIndex(null);
+  };
+
+  const correctPositions = colors.map((c, i) =>
+    sortedRef.current[i] && c.hue === sortedRef.current[i].hue
+  );
 
   if (done) {
     return (
       <Layout>
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-16">
-          <ActivityComplete score={score} label="%" onRetry={init} message={`Sorted in ${elapsed}s. Ready to get back to it?`} />
+          <ActivityComplete score={score} label="%" activity="color-sort" onRetry={init} message={`Sorted in ${elapsed}s.`} />
         </div>
       </Layout>
     );
@@ -93,27 +139,35 @@ const ColorSort = () => {
         <p className="font-body text-sm text-muted-foreground mb-8">
           Tap two tiles to swap. Arrange in rainbow order.
         </p>
-        <div className="flex gap-2 flex-wrap justify-center mb-6">
+        <div className="flex gap-2 flex-wrap justify-center mb-2">
           {colors.map((c, i) => (
             <button
               key={i}
+              draggable
+              onDragStart={() => handleDragStart(i)}
+              onDragOver={(e) => handleDragOver(e, i)}
+              onDragEnd={handleDragEnd}
               onClick={() => handleClick(i)}
-              className={`w-14 h-14 sm:w-16 sm:h-16 rounded-md transition-all duration-200 ${
+              className={`w-[60px] h-[60px] sm:w-[72px] sm:h-[72px] rounded-lg transition-all duration-300 ${
                 selected === i ? "ring-2 ring-foreground scale-110" : "hover:scale-105"
-              }`}
-              style={{ backgroundColor: c.color }}
+              } ${cascadeIndex >= i && cascadeIndex >= 0 ? "glow-primary" : ""}`}
+              style={{
+                backgroundColor: c.color,
+                boxShadow: cascadeIndex >= i && cascadeIndex >= 0
+                  ? "0 0 20px hsl(174 58% 55% / 0.5), inset 0 2px 4px rgba(255,255,255,0.1)"
+                  : "inset 0 2px 4px rgba(255,255,255,0.08), inset 0 -2px 4px rgba(0,0,0,0.2)",
+              }}
             />
           ))}
         </div>
-        <div className="flex items-center gap-6">
-          <span className="font-mono text-sm text-muted-foreground">{elapsed}s</span>
-          <button
-            onClick={handleSubmit}
-            className="font-mono text-sm px-6 py-2 rounded-md bg-primary text-primary-foreground transition-all duration-300 hover:opacity-90"
-          >
-            done
-          </button>
+        <div className="flex gap-2 flex-wrap justify-center mb-6">
+          {correctPositions.map((correct, i) => (
+            <div key={i} className="w-[60px] sm:w-[72px] flex justify-center">
+              <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${correct ? "bg-primary" : "bg-muted-foreground/20"}`} />
+            </div>
+          ))}
         </div>
+        <span className="font-mono text-sm text-muted-foreground">{elapsed}s</span>
       </div>
     </Layout>
   );

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import Layout from "@/components/Layout";
 import ActivityComplete from "@/components/ActivityComplete";
 import { saveScore } from "@/lib/scores";
+import { playClick } from "@/lib/audio";
 
 function generatePattern(): number[] {
   const count = 4 + Math.floor(Math.random() * 4);
@@ -13,13 +14,16 @@ function generatePattern(): number[] {
 }
 
 const RhythmTap = () => {
-  const [phase, setPhase] = useState<"idle" | "demo" | "input" | "done">("idle");
+  const [phase, setPhase] = useState<"idle" | "demo" | "input" | "roundScore" | "done">("idle");
   const [pattern, setPattern] = useState<number[]>([]);
   const [taps, setTaps] = useState<number[]>([]);
   const [pulse, setPulse] = useState(false);
+  const [ripple, setRipple] = useState(false);
   const [round, setRound] = useState(0);
   const [scores, setScores] = useState<number[]>([]);
   const [finalScore, setFinalScore] = useState(0);
+  const [roundScoreDisplay, setRoundScoreDisplay] = useState(0);
+  const [tapFeedback, setTapFeedback] = useState<"green" | "yellow" | "red" | null>(null);
   const startTimeRef = useRef(0);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -34,7 +38,10 @@ const RhythmTap = () => {
     p.forEach((t) => {
       const id = setTimeout(() => {
         setPulse(true);
+        setRipple(true);
+        playClick();
         setTimeout(() => setPulse(false), 150);
+        setTimeout(() => setRipple(false), 500);
       }, t);
       timeoutsRef.current.push(id);
     });
@@ -49,6 +56,7 @@ const RhythmTap = () => {
   const startRound = useCallback(() => {
     const p = generatePattern();
     setPattern(p);
+    setTapFeedback(null);
     playPattern(p);
   }, [playPattern]);
 
@@ -58,6 +66,7 @@ const RhythmTap = () => {
     setFinalScore(0);
     setPhase("idle");
     setTaps([]);
+    setTapFeedback(null);
     setTimeout(() => startRound(), 500);
   }, [startRound]);
 
@@ -74,9 +83,7 @@ const RhythmTap = () => {
       totalDiff += Math.abs(p[i] - t[i]);
     }
     const avgDiff = totalDiff / len;
-    // Perfect = 0ms diff, scale to percentage
-    const score = Math.max(0, Math.round(100 - avgDiff / 5));
-    return score;
+    return Math.max(0, Math.round(100 - avgDiff / 5));
   }, []);
 
   const handleTap = useCallback(() => {
@@ -84,6 +91,16 @@ const RhythmTap = () => {
     const now = Date.now() - startTimeRef.current;
     const nextTaps = [...taps, now];
     setTaps(nextTaps);
+
+    // Accuracy feedback per tap
+    const tapIndex = nextTaps.length - 1;
+    if (tapIndex < pattern.length) {
+      const diff = Math.abs(pattern[tapIndex] - nextTaps[tapIndex]);
+      if (diff < 50) setTapFeedback("green");
+      else if (diff < 100) setTapFeedback("yellow");
+      else setTapFeedback("red");
+      setTimeout(() => setTapFeedback(null), 300);
+    }
 
     setPulse(true);
     setTimeout(() => setPulse(false), 150);
@@ -101,7 +118,13 @@ const RhythmTap = () => {
         setPhase("done");
         saveScore("rhythm-tap", avg, "%");
       } else {
-        setTimeout(() => startRound(), 1000);
+        // Show round score briefly
+        setRoundScoreDisplay(roundScore);
+        setPhase("roundScore");
+        setTimeout(() => {
+          setPhase("idle");
+          startRound();
+        }, 1200);
       }
     }
   }, [phase, taps, pattern, scores, round, calcRoundScore, startRound]);
@@ -121,31 +144,54 @@ const RhythmTap = () => {
     return (
       <Layout>
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-16">
-          <ActivityComplete score={finalScore} label="%" onRetry={init} />
+          <ActivityComplete score={finalScore} label="%" activity="rhythm-tap" onRetry={init} />
         </div>
       </Layout>
     );
   }
+
+  const feedbackRing = tapFeedback === "green"
+    ? "ring-2 ring-green-400"
+    : tapFeedback === "yellow"
+    ? "ring-2 ring-yellow-400"
+    : tapFeedback === "red"
+    ? "ring-2 ring-red-400"
+    : "";
 
   return (
     <Layout>
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in">
         <h1 className="font-mono text-xl font-bold mb-2">rhythm tap</h1>
         <p className="font-body text-sm text-muted-foreground mb-12">
-          {phase === "demo" ? "Watch the rhythm..." : phase === "input" ? "Your turn. Tap spacebar." : "Get ready..."}
+          {phase === "demo" ? "Watch the rhythm..." : phase === "input" ? "Your turn — tap!" : phase === "roundScore" ? `Round ${round}: ${roundScoreDisplay}%` : "Get ready..."}
         </p>
 
+        <div className="relative flex items-center justify-center mb-6">
+          {/* Ripple */}
+          {ripple && (
+            <div className="absolute w-32 h-32 rounded-full border-2 border-primary animate-ping opacity-30" />
+          )}
+          <div
+            className={`w-32 h-32 rounded-full border-2 transition-all duration-150 ${feedbackRing} ${
+              pulse
+                ? "bg-primary border-primary glow-primary scale-110"
+                : "bg-secondary border-border"
+            }`}
+          />
+        </div>
+
+        {/* Mobile tap button */}
         <button
           onClick={handleTap}
-          className={`w-32 h-32 rounded-full border-2 transition-all duration-150 ${
-            pulse
-              ? "bg-primary border-primary glow-primary scale-110"
-              : "bg-secondary border-border"
-          }`}
-        />
+          className="font-mono text-sm px-8 py-4 rounded-full border-2 border-border bg-secondary transition-all duration-200 hover:border-primary active:scale-95 sm:hidden mb-4"
+        >
+          TAP
+        </button>
 
-        <p className="font-mono text-xs text-muted-foreground mt-8">
-          round {round + 1} / 5
+        <p className="font-mono text-xs text-muted-foreground hidden sm:block mb-4">spacebar to tap</p>
+
+        <p className="font-mono text-xs text-muted-foreground mt-4">
+          round {Math.min(round + 1, 5)} / 5
         </p>
         {phase === "input" && (
           <p className="font-mono text-xs text-muted-foreground mt-2">
