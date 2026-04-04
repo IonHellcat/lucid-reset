@@ -404,7 +404,7 @@ const TypingTest = () => {
             />
           )}
 
-          <div className="flex flex-wrap gap-x-2.5 gap-y-2 leading-relaxed select-none">
+          <div className="flex flex-wrap gap-x-3 gap-y-3 leading-loose select-none">
             {words.slice(0, wordIndex + 40).map((word, wi) => {
               const isActive = wi === wordIndex;
               const result = wordResults[wi];
