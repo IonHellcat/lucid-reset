@@ -350,17 +350,17 @@ const TypingTest = () => {
         onClick={() => inputRef.current?.focus()}
       >
         {/* Live stats bar */}
-        <div className="flex items-center gap-4 mb-8 h-8">
+        <div className="flex items-center gap-6 mb-10 h-10">
           {phase === "active" ? (
             <>
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-mono text-2xl font-bold text-accent transition-all duration-300">{wpm}</span>
-                <span className="font-display text-[10px] uppercase tracking-widest text-muted-foreground/60">wpm</span>
+              <div className="flex items-baseline gap-2">
+                <span className="font-mono text-3xl font-bold text-accent transition-all duration-300">{wpm}</span>
+                <span className="font-display text-xs uppercase tracking-widest text-muted-foreground/60">wpm</span>
               </div>
-              <div className="w-px h-4 bg-muted-foreground/20" />
-              <span className="font-mono text-sm text-muted-foreground/60">{accuracy}%</span>
-              <div className="w-px h-4 bg-muted-foreground/20" />
-              <span className="font-mono text-sm text-primary">{timeLeft}s</span>
+              <div className="w-px h-5 bg-muted-foreground/20" />
+              <span className="font-mono text-base text-muted-foreground/60">{accuracy}%</span>
+              <div className="w-px h-5 bg-muted-foreground/20" />
+              <span className="font-mono text-base text-primary">{timeLeft}s</span>
             </>
           ) : (
             <div className="flex items-center gap-1">
@@ -368,7 +368,7 @@ const TypingTest = () => {
                 <button
                   key={d}
                   onClick={(e) => { e.stopPropagation(); handleDurationChange(d); }}
-                  className={`font-display text-sm px-3 py-1 rounded-md transition-all duration-200 cursor-pointer ${
+                  className={`font-display text-base px-4 py-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                     d === duration
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground/40 hover:text-muted-foreground/70"
@@ -384,7 +384,7 @@ const TypingTest = () => {
         {/* Word display */}
         <div
           ref={containerRef}
-          className={`max-w-2xl w-full h-[6.5rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
+          className={`max-w-3xl w-full h-[8rem] overflow-hidden relative mb-10 cursor-text transition-all duration-300 ${
             !isFocused ? "blur-[3px] opacity-50" : ""
           }`}
           onClick={() => inputRef.current?.focus()}
@@ -404,7 +404,7 @@ const TypingTest = () => {
             />
           )}
 
-          <div className="flex flex-wrap gap-x-2.5 gap-y-2 leading-relaxed select-none">
+          <div className="flex flex-wrap gap-x-3 gap-y-3 leading-loose select-none">
             {words.slice(0, wordIndex + 40).map((word, wi) => {
               const isActive = wi === wordIndex;
               const result = wordResults[wi];
@@ -413,7 +413,7 @@ const TypingTest = () => {
                 <span
                   key={wi}
                   data-active={isActive}
-                  className={`font-mono text-[1.25rem] transition-colors duration-200 relative ${
+                  className={`font-mono text-[1.5rem] transition-colors duration-200 relative ${
                     result === "correct"
                       ? "text-primary/50"
                       : result === "wrong"
@@ -476,8 +476,8 @@ const TypingTest = () => {
         />
 
         {/* Progress bar */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-52 h-[3px] bg-secondary/50 rounded-full overflow-hidden">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-64 h-[3px] bg-secondary/50 rounded-full overflow-hidden">
             <div
               className="h-full bg-primary/60 rounded-full transition-all duration-300 ease-out"
               style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
