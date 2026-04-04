@@ -413,7 +413,7 @@ const TypingTest = () => {
                 <span
                   key={wi}
                   data-active={isActive}
-                  className={`font-mono text-[1.25rem] transition-colors duration-200 relative ${
+                  className={`font-mono text-[1.5rem] transition-colors duration-200 relative ${
                     result === "correct"
                       ? "text-primary/50"
                       : result === "wrong"
