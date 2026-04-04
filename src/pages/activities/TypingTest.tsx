@@ -476,8 +476,8 @@ const TypingTest = () => {
         />
 
         {/* Progress bar */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-52 h-[3px] bg-secondary/50 rounded-full overflow-hidden">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-64 h-[3px] bg-secondary/50 rounded-full overflow-hidden">
             <div
               className="h-full bg-primary/60 rounded-full transition-all duration-300 ease-out"
               style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
