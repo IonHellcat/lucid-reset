@@ -350,17 +350,17 @@ const TypingTest = () => {
         onClick={() => inputRef.current?.focus()}
       >
         {/* Live stats bar */}
-        <div className="flex items-center gap-4 mb-8 h-8">
+        <div className="flex items-center gap-6 mb-10 h-10">
           {phase === "active" ? (
             <>
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-mono text-2xl font-bold text-accent transition-all duration-300">{wpm}</span>
-                <span className="font-display text-[10px] uppercase tracking-widest text-muted-foreground/60">wpm</span>
+              <div className="flex items-baseline gap-2">
+                <span className="font-mono text-3xl font-bold text-accent transition-all duration-300">{wpm}</span>
+                <span className="font-display text-xs uppercase tracking-widest text-muted-foreground/60">wpm</span>
               </div>
-              <div className="w-px h-4 bg-muted-foreground/20" />
-              <span className="font-mono text-sm text-muted-foreground/60">{accuracy}%</span>
-              <div className="w-px h-4 bg-muted-foreground/20" />
-              <span className="font-mono text-sm text-primary">{timeLeft}s</span>
+              <div className="w-px h-5 bg-muted-foreground/20" />
+              <span className="font-mono text-base text-muted-foreground/60">{accuracy}%</span>
+              <div className="w-px h-5 bg-muted-foreground/20" />
+              <span className="font-mono text-base text-primary">{timeLeft}s</span>
             </>
           ) : (
             <div className="flex items-center gap-1">
