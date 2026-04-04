@@ -113,8 +113,9 @@ const FlowTrace = () => {
       const elapsed = Date.now() - startRef.current;
       const t = Math.min(elapsed / DURATION, 1);
       setProgress(t);
-      const idx = Math.floor(t * (path.length - 1));
+      const idx = Math.min(Math.floor(t * (path.length - 1)), path.length - 1);
       const target = path[idx];
+      if (!target) { animRef.current = requestAnimationFrame(loop); return; }
 
       const dx = mouseRef.current.x - target.x;
       const dy = mouseRef.current.y - target.y;
