@@ -424,7 +424,7 @@ const TypingTest = () => {
                       ? "text-destructive/50 line-through decoration-destructive/30"
                       : isActive
                       ? ""
-                      : "text-muted-foreground/25"
+                      : "text-muted-foreground/60"
                   }`}
                 >
                   {isActive
