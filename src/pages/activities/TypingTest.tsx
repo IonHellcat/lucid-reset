@@ -384,7 +384,7 @@ const TypingTest = () => {
         {/* Word display */}
         <div
           ref={containerRef}
-          className={`max-w-3xl w-full h-[8rem] overflow-hidden relative mb-10 cursor-text transition-all duration-300 ${
+          className={`max-w-[900px] w-full h-[10rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
             !isFocused ? "blur-[3px] opacity-50" : ""
           }`}
           onClick={() => inputRef.current?.focus()}
@@ -393,18 +393,18 @@ const TypingTest = () => {
           {isFocused && (
             <div
               ref={caretRef}
-              className="absolute w-[2px] bg-primary rounded-full z-10"
+              className="absolute w-[2.5px] bg-primary rounded-full z-10"
               style={{
                 left: caretPos.left,
                 top: caretPos.top + 2,
-                height: "1.4em",
+                height: "1.8em",
                 transition: "left 0.08s cubic-bezier(0.16, 1, 0.3, 1), top 0.08s cubic-bezier(0.16, 1, 0.3, 1)",
-                animation: "caret-blink 1s ease-in-out infinite",
+                animation: phase === "waiting" ? "caret-blink 1s ease-in-out infinite" : "none",
               }}
             />
           )}
 
-          <div className="flex flex-wrap gap-x-3 gap-y-3 leading-loose select-none">
+          <div className="flex flex-wrap gap-x-[0.6em] gap-y-[0.5em] select-none" style={{ lineHeight: '2.2' }}>
             {words.slice(0, wordIndex + 40).map((word, wi) => {
               const isActive = wi === wordIndex;
               const result = wordResults[wi];
@@ -413,20 +413,20 @@ const TypingTest = () => {
                 <span
                   key={wi}
                   data-active={isActive}
-                  className={`font-mono text-[1.5rem] transition-colors duration-200 relative ${
+                  className={`font-mono text-[1.65rem] tracking-wide transition-colors duration-200 relative ${
                     result === "correct"
                       ? "text-primary/50"
                       : result === "wrong"
                       ? "text-destructive/50 line-through decoration-destructive/30"
                       : isActive
                       ? ""
-                      : "text-muted-foreground/30"
+                      : "text-muted-foreground/25"
                   }`}
                 >
                   {isActive
                     ? word.split("").map((char, ci) => {
                         const isBeforeCursor = ci < typed.length;
-                        let charColor = "text-muted-foreground/30";
+                        let charColor = "text-muted-foreground/25";
                         if (isBeforeCursor) {
                           charColor = typed[ci] === char ? "text-foreground" : "text-destructive";
                         }
