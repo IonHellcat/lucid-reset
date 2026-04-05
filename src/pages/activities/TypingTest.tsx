@@ -346,21 +346,21 @@ const TypingTest = () => {
   return (
     <Layout>
       <div
-        className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in"
+        className="flex-1 flex flex-col items-center justify-center px-6 py-8 animate-fade-in"
         onClick={() => inputRef.current?.focus()}
       >
         {/* Live stats bar */}
-        <div className="flex items-center gap-6 mb-10 h-10">
+        <div className="flex items-center gap-6 mb-8 h-10">
           {phase === "active" ? (
             <>
-              <div className="flex items-baseline gap-2">
-                <span className="font-mono text-3xl font-bold text-accent transition-all duration-300">{wpm}</span>
-                <span className="font-display text-xs uppercase tracking-widest text-muted-foreground/60">wpm</span>
+              <span className="font-mono text-4xl font-bold text-primary transition-all duration-300">{timeLeft}</span>
+              <div className="w-px h-5 bg-muted-foreground/15" />
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-mono text-2xl font-bold text-accent transition-all duration-300">{wpm}</span>
+                <span className="font-display text-[10px] uppercase tracking-widest text-muted-foreground/40">wpm</span>
               </div>
-              <div className="w-px h-5 bg-muted-foreground/20" />
-              <span className="font-mono text-base text-muted-foreground/60">{accuracy}%</span>
-              <div className="w-px h-5 bg-muted-foreground/20" />
-              <span className="font-mono text-base text-primary">{timeLeft}s</span>
+              <div className="w-px h-5 bg-muted-foreground/15" />
+              <span className="font-mono text-base text-muted-foreground/40">{accuracy}%</span>
             </>
           ) : (
             <div className="flex items-center gap-1">
@@ -371,7 +371,7 @@ const TypingTest = () => {
                   className={`font-display text-base px-4 py-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                     d === duration
                       ? "text-primary bg-primary/10"
-                      : "text-muted-foreground/40 hover:text-muted-foreground/70"
+                      : "text-muted-foreground/30 hover:text-muted-foreground/60"
                   }`}
                 >
                   {d}
