@@ -430,7 +430,7 @@ const TypingTest = () => {
                   {isActive
                     ? word.split("").map((char, ci) => {
                         const isBeforeCursor = ci < typed.length;
-                        let charColor = "text-muted-foreground/25";
+                        let charColor = "text-muted-foreground/60";
                         if (isBeforeCursor) {
                           charColor = typed[ci] === char ? "text-foreground" : "text-destructive";
                         }
