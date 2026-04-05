@@ -475,19 +475,13 @@ const TypingTest = () => {
           spellCheck={false}
         />
 
-        {/* Progress bar */}
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-64 h-[3px] bg-secondary/50 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-primary/60 rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
-            />
-          </div>
-          <p className="font-display text-[10px] text-muted-foreground/20"><span className="font-mono">tab</span> to restart</p>
+        {/* Restart hint */}
+        <div className="flex flex-col items-center gap-2 mt-2">
+          <p className="font-display text-[11px] text-muted-foreground/15"><span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-secondary/40 text-muted-foreground/25 mr-1.5">tab</span>restart test</p>
         </div>
 
         {phase === "waiting" && (
-          <p className="font-display text-xs text-muted-foreground/30 mt-6 animate-pulse">
+          <p className="font-display text-xs text-muted-foreground/20 mt-4 animate-pulse">
             start typing to begin
           </p>
         )}
