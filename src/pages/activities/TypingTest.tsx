@@ -388,6 +388,10 @@ const TypingTest = () => {
             !isFocused ? "blur-[3px] opacity-50" : ""
           }`}
           onClick={() => inputRef.current?.focus()}
+          style={{
+            maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+          }}
         >
           {/* Smooth caret */}
           {isFocused && (
