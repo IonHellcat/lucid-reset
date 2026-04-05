@@ -384,13 +384,13 @@ const TypingTest = () => {
         {/* Word display */}
         <div
           ref={containerRef}
-          className={`max-w-[900px] w-full h-[10rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
+          className={`max-w-[900px] w-full h-[13rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
             !isFocused ? "blur-[3px] opacity-50" : ""
           }`}
           onClick={() => inputRef.current?.focus()}
           style={{
-            maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
           }}
         >
           {/* Smooth caret */}
