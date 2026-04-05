@@ -346,21 +346,21 @@ const TypingTest = () => {
   return (
     <Layout>
       <div
-        className="flex-1 flex flex-col items-center justify-center px-6 py-16 animate-fade-in"
+        className="flex-1 flex flex-col items-center justify-center px-6 py-8 animate-fade-in"
         onClick={() => inputRef.current?.focus()}
       >
         {/* Live stats bar */}
-        <div className="flex items-center gap-6 mb-10 h-10">
+        <div className="flex items-center gap-6 mb-8 h-10">
           {phase === "active" ? (
             <>
-              <div className="flex items-baseline gap-2">
-                <span className="font-mono text-3xl font-bold text-accent transition-all duration-300">{wpm}</span>
-                <span className="font-display text-xs uppercase tracking-widest text-muted-foreground/60">wpm</span>
+              <span className="font-mono text-4xl font-bold text-primary transition-all duration-300">{timeLeft}</span>
+              <div className="w-px h-5 bg-muted-foreground/15" />
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-mono text-2xl font-bold text-accent transition-all duration-300">{wpm}</span>
+                <span className="font-display text-[10px] uppercase tracking-widest text-muted-foreground/40">wpm</span>
               </div>
-              <div className="w-px h-5 bg-muted-foreground/20" />
-              <span className="font-mono text-base text-muted-foreground/60">{accuracy}%</span>
-              <div className="w-px h-5 bg-muted-foreground/20" />
-              <span className="font-mono text-base text-primary">{timeLeft}s</span>
+              <div className="w-px h-5 bg-muted-foreground/15" />
+              <span className="font-mono text-base text-muted-foreground/40">{accuracy}%</span>
             </>
           ) : (
             <div className="flex items-center gap-1">
@@ -371,7 +371,7 @@ const TypingTest = () => {
                   className={`font-display text-base px-4 py-1.5 rounded-md transition-all duration-200 cursor-pointer ${
                     d === duration
                       ? "text-primary bg-primary/10"
-                      : "text-muted-foreground/40 hover:text-muted-foreground/70"
+                      : "text-muted-foreground/30 hover:text-muted-foreground/60"
                   }`}
                 >
                   {d}
@@ -384,27 +384,31 @@ const TypingTest = () => {
         {/* Word display */}
         <div
           ref={containerRef}
-          className={`max-w-3xl w-full h-[8rem] overflow-hidden relative mb-10 cursor-text transition-all duration-300 ${
+          className={`max-w-[900px] w-full h-[13rem] overflow-hidden relative mb-8 cursor-text transition-all duration-300 ${
             !isFocused ? "blur-[3px] opacity-50" : ""
           }`}
           onClick={() => inputRef.current?.focus()}
+          style={{
+            maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+          }}
         >
           {/* Smooth caret */}
           {isFocused && (
             <div
               ref={caretRef}
-              className="absolute w-[2px] bg-primary rounded-full z-10"
+              className="absolute w-[2.5px] bg-primary rounded-full z-10"
               style={{
                 left: caretPos.left,
                 top: caretPos.top + 2,
-                height: "1.4em",
+                height: "1.8em",
                 transition: "left 0.08s cubic-bezier(0.16, 1, 0.3, 1), top 0.08s cubic-bezier(0.16, 1, 0.3, 1)",
-                animation: "caret-blink 1s ease-in-out infinite",
+                animation: phase === "waiting" ? "caret-blink 1s ease-in-out infinite" : "none",
               }}
             />
           )}
 
-          <div className="flex flex-wrap gap-x-3 gap-y-3 leading-loose select-none">
+          <div className="flex flex-wrap gap-x-[0.6em] gap-y-[0.5em] select-none" style={{ lineHeight: '2.2' }}>
             {words.slice(0, wordIndex + 40).map((word, wi) => {
               const isActive = wi === wordIndex;
               const result = wordResults[wi];
@@ -413,20 +417,20 @@ const TypingTest = () => {
                 <span
                   key={wi}
                   data-active={isActive}
-                  className={`font-mono text-[1.5rem] transition-colors duration-200 relative ${
+                  className={`font-mono text-[1.65rem] tracking-wide transition-colors duration-200 relative ${
                     result === "correct"
                       ? "text-primary/50"
                       : result === "wrong"
                       ? "text-destructive/50 line-through decoration-destructive/30"
                       : isActive
                       ? ""
-                      : "text-muted-foreground/30"
+                      : "text-muted-foreground/25"
                   }`}
                 >
                   {isActive
                     ? word.split("").map((char, ci) => {
                         const isBeforeCursor = ci < typed.length;
-                        let charColor = "text-muted-foreground/30";
+                        let charColor = "text-muted-foreground/25";
                         if (isBeforeCursor) {
                           charColor = typed[ci] === char ? "text-foreground" : "text-destructive";
                         }
@@ -475,19 +479,13 @@ const TypingTest = () => {
           spellCheck={false}
         />
 
-        {/* Progress bar */}
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-64 h-[3px] bg-secondary/50 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-primary/60 rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${((duration - timeLeft) / duration) * 100}%` }}
-            />
-          </div>
-          <p className="font-display text-[10px] text-muted-foreground/20"><span className="font-mono">tab</span> to restart</p>
+        {/* Restart hint */}
+        <div className="flex flex-col items-center gap-2 mt-2">
+          <p className="font-display text-[11px] text-muted-foreground/15"><span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-secondary/40 text-muted-foreground/25 mr-1.5">tab</span>restart test</p>
         </div>
 
         {phase === "waiting" && (
-          <p className="font-display text-xs text-muted-foreground/30 mt-6 animate-pulse">
+          <p className="font-display text-xs text-muted-foreground/20 mt-4 animate-pulse">
             start typing to begin
           </p>
         )}
